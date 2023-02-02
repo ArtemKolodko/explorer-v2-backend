@@ -10,4 +10,6 @@ export type PostgresStorageOptions = {
   password: string
   port: number
   poolSize: number
+
+  isProduction?: boolean
 }

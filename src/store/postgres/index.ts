@@ -76,10 +76,14 @@ export class PostgresStorage implements IStorage {
     this.l = logger(module, `shard${options.shardID}`)
     this.options = options
 
+    const configSource = options.isProduction
+      ? config.store.postgresProduction
+      : config.store.postgres
+
     this.db = new Pool({
       // todo a hack for kms support
-      user: config.store.postgres[this.shardID].user,
-      password: config.store.postgres[this.shardID].password,
+      user: configSource[this.shardID].user,
+      password: configSource[this.shardID].password,
       host: options.host,
       database: options.database,
       port: options.port,

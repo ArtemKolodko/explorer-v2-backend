@@ -19,6 +19,14 @@ const APIPools = config.api.isEnabled
     })
   : null
 
+const ProductionAPIPools = config.api.isEnabled
+  ? shards.map((shardID) => {
+      const p = config.store.postgresProduction[shardID]
+      return new PostgresStorage({...p, shardID, isProduction: true} as PostgresStorageOptions)
+    })
+  : null
+
 export const stores = indexerPools || APIPools || []
 
 export const storesAPI = APIPools || indexerPools || []
+export const productionAPI = ProductionAPIPools || []

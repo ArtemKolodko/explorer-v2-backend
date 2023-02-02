@@ -157,6 +157,40 @@ export const config = {
         poolSize: +(process.env.SHARD3_POSTGRES_POOL_SIZE || 20),
       },
     ],
+    postgresProduction: [
+      {
+        user: process.env.PROD_SHARD0_POSTGRES_USER,
+        host: process.env.PROD_SHARD0_POSTGRES_HOST,
+        database: process.env.PROD_SHARD0_POSTGRES_DB,
+        password: process.env.PROD_SHARD0_POSTGRES_PASSWORD,
+        port: +(process.env.PROD_SHARD0_POSTGRES_PORT || 5432),
+        poolSize: +(process.env.PROD_SHARD0_POSTGRES_POOL_SIZE || 10),
+      },
+      {
+        user: process.env.PROD_SHARD1_POSTGRES_USER,
+        host: process.env.PROD_SHARD1_POSTGRES_HOST,
+        database: process.env.PROD_SHARD1_POSTGRES_DB,
+        password: process.env.PROD_SHARD1_POSTGRES_PASSWORD,
+        port: +(process.env.PROD_SHARD1_POSTGRES_PORT || 5432),
+        poolSize: +(process.env.PROD_SHARD1_POSTGRES_POOL_SIZE || 10),
+      },
+      {
+        user: process.env.PROD_SHARD2_POSTGRES_USER,
+        host: process.env.PROD_SHARD2_POSTGRES_HOST,
+        database: process.env.PROD_SHARD2_POSTGRES_DB,
+        password: process.env.PROD_SHARD2_POSTGRES_PASSWORD,
+        port: +(process.env.PROD_SHARD2_POSTGRES_PORT || 5432),
+        poolSize: +(process.env.PROD_SHARD2_POSTGRES_POOL_SIZE || 10),
+      },
+      {
+        user: process.env.PROD_SHARD3_POSTGRES_USER,
+        host: process.env.PROD_SHARD3_POSTGRES_HOST,
+        database: process.env.PROD_SHARD3_POSTGRES_DB,
+        password: process.env.PROD_SHARD3_POSTGRES_PASSWORD,
+        port: +(process.env.PROD_SHARD3_POSTGRES_PORT || 5432),
+        poolSize: +(process.env.PROD_SHARD3_POSTGRES_POOL_SIZE || 10),
+      },
+    ],
   },
   logger: {
     levels: {
