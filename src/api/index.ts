@@ -9,7 +9,7 @@ const l = logger(module)
 export const api = async () => {
   l.info(`API starting... Shards[${config.api.shards.join(', ')}]`)
 
-  await warmUpCache()
+  // await warmUpCache()
   await RESTServer()
   // await GRPCServer()
   await webSocketServer()
