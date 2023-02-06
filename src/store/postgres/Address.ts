@@ -48,16 +48,14 @@ export class PostgresStorageAddress implements IStorageAddress {
       if (type === 'erc20') {
         txs = await this.query(
           `
-            select ce.*, t.timestamp, t.input
+            select ce.*
             from (
-                 (select * from contract_events ce where ce.from = $1 and ce.transaction_type = $2 order by block_number desc limit $5)
+                 (select * from contract_events ce where ce.from = $1 and ce.transaction_type = $2 order by block_number desc)
                  union
-                 (select * from contract_events ce where ce.to = $1 and ce.transaction_type = $2 order by block_number desc limit $5)
+                 (select * from contract_events ce where ce.to = $1 and ce.transaction_type = $2 order by block_number desc)
             ) ce
-            join transactions t on t.hash = ce.transaction_hash
             order by ce.block_number desc
-            offset $3
-            limit $4`,
+          `,
           [address, type, offset, limit, subQueryLimit]
         )
       } else {
