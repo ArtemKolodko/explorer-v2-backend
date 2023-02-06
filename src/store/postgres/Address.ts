@@ -56,7 +56,7 @@ export class PostgresStorageAddress implements IStorageAddress {
             ) ce
             order by ce.block_number desc
           `,
-          [address, type, offset, limit, subQueryLimit]
+          [address, type]
         )
       } else {
         // Include both erc721 & erc1155
