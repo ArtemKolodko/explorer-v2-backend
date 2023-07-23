@@ -24,6 +24,12 @@ export class PostgresStorageInternalTransaction implements IStorageInternalTrans
     ])
   }
 
+  addInternalTransactions = async (txs: InternalTransaction[]) => {
+    for (let i = 0; i < txs.length; i++) {
+      await this.addInternalTransaction(txs[i])
+    }
+  }
+
   addInternalTransaction = async (tx: InternalTransaction) => {
     const newTx = {
       ...tx,

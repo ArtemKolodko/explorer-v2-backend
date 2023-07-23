@@ -113,42 +113,33 @@ export class BlockIndexer {
         blocks: Block[],
         blocksInternalTxs: InternalTransaction[][]
       ) => {
-        return Promise.all(
-          blocks.map(async (block, index) => {
-            if (!block.transactions.length) {
-              return Promise.resolve(block)
-            }
+        for (let i = 0; i < blocks.length; i++) {
+          const block = blocks[i]
 
-            // if (!block.transactions.reduce((a, b) => a || b.input.length > 3, false)) {
-            //   return Promise.resolve(block)
-            // }
+          if (!block.transactions.length) {
+            continue
+          }
+          const internalTxs = blocksInternalTxs[i]
 
-            const internalTxs = blocksInternalTxs[index]
+          await store.internalTransaction.addInternalTransactions(internalTxs)
+          // const chunks = arrayChunk(internalTxs, defaultChunkSize)
+          // for (const chunk of chunks) {
+          //   await Promise.all(
+          //     chunk.map((tx: any) => store.internalTransaction.addInternalTransaction(tx))
+          //   )
+          // }
 
-            internalTxs.forEach((tx) => {
-              addressIndexer.add(block, tx.transactionHash, 'internal_transaction', tx.from, tx.to)
-            })
-
-            // txs.map((tx) => monitorTransfers.addInternalTransaction(tx, block))
-
-            // await Promise.all(txs.map((tx) => store.internalTransaction.addInternalTransaction(tx)))
-            const chunks = arrayChunk(internalTxs, defaultChunkSize)
-            for (const chunk of chunks) {
-              await Promise.all(
-                chunk.map((tx: any) => store.internalTransaction.addInternalTransaction(tx))
-              )
-            }
-
-            await Promise.all(
-              internalTxs
-                .map(contractAddressIndexer)
-                .filter((contract) => contract)
-                .map((contract) => store.contract.addContract(contract!))
-            )
-
-            return block
+          internalTxs.forEach((tx) => {
+            addressIndexer.add(block, tx.transactionHash, 'internal_transaction', tx.from, tx.to)
           })
-        )
+
+          await Promise.all(
+            internalTxs
+              .map(contractAddressIndexer)
+              .filter((contract) => contract)
+              .map((contract) => store.contract.addContract(contract!))
+          )
+        }
       }
 
       const addTransactions = async (
